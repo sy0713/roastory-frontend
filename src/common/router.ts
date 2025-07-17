@@ -1,5 +1,6 @@
 import {createBrowserRouter} from "react-router";
 import Home from "../ui/home.tsx";
+import Roastery from "../ui/roastery/roastery.tsx";
 import Layout from "../ui/layout.tsx";
 
 export const router = createBrowserRouter([
@@ -11,6 +12,10 @@ export const router = createBrowserRouter([
                 index: true,
                 Component: Home,
             },
+            {
+                path: "roastery",
+                Component: Roastery
+            }
         ]
     }
 ])

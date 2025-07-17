@@ -1,7 +1,9 @@
 import {AppBar, Box, Button, Container, Grid, Toolbar} from "@mui/material";
-import {Outlet} from "react-router";
+import {AnimatePresence} from "motion/react";
+import {Outlet, useLocation} from "react-router";
 
 const Layout = () => {
+    const location = useLocation();
 
     return <>
         <Box sx={{display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
@@ -37,9 +39,10 @@ const Layout = () => {
                     mb: 2,
                     // border: 1
                 }}>
-                <Outlet/>
+                <AnimatePresence mode="wait">
+                    <Outlet key={location.pathname}/>
+                </AnimatePresence>
             </Container>
-
         </Box>
     </>
 
