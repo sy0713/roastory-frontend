@@ -5,6 +5,7 @@ import {RoasterySelectTab} from "./roasterySelectTab.tsx";
 import {RosteryInfoBox} from "./rosteryInfoBox.tsx";
 import {BeanSelection} from "./beanSelection.tsx";
 import type {Bean, RoastingType, SelectedBean} from "../../model/roasteryType.ts";
+import RoastingLevel from "./roastingLevel.tsx";
 
 const Roastery = () => {
     const [currentTab, setCurrentTab] = useState<RoastingType>('produce');
@@ -78,6 +79,8 @@ const Roastery = () => {
             <BeanSelection selectedBeans={selectedBeans}
                            handleCheckboxChange={handleCheckboxChange}
                            handlePercentageChange={handlePercentageChange}/>
+
+            <RoastingLevel/>
 
         </MotionBox>
     </>

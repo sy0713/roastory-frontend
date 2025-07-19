@@ -11,6 +11,7 @@ import {
     Typography
 } from "@mui/material";
 import {type Bean, beans, type SelectedBean} from "../../model/roasteryType.ts";
+import {useMemo} from "react";
 
 export const BeanSelection = ({
                                   selectedBeans, handleCheckboxChange, handlePercentageChange
@@ -18,88 +19,109 @@ export const BeanSelection = ({
     selectedBeans: SelectedBean[],
     handleCheckboxChange: (bean: Bean, event: React.ChangeEvent<HTMLInputElement>) => void,
     handlePercentageChange: (beanId: string, value: number) => void
-}) => <>
-    <Box sx={{width: '100%',}}>
-        <Typography
-            variant="h5"
-            component="h2"
-            fontWeight="bold"
-            sx={{mb: 1}}
-        >
-            원두 원산지 선택
-        </Typography>
+}) => {
 
-        <FormGroup>
-            <Grid container spacing={0.5}>
-                {beans.map((bean) => (
-                    <Grid size={{xs: 12, sm: 6, md: 4,}} key={bean.id}>
-                        <Stack>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        name={bean.name}
-                                        value={bean}
-                                        checked={selectedBeans.some(b => b.id === bean.id)}
-                                        onChange={(e) => handleCheckboxChange(bean, e)}
-                                        size="small"
-                                        sx={{
-                                            '&.Mui-checked': {
-                                                color: 'primary.dark',
-                                            }
-                                        }}
-                                    />
-                                }
-                                label={
-                                    <Typography variant="body1" sx={{fontSize: '0.95rem'}}>
-                                        {bean.name}
-                                    </Typography>
-                                }
-                            />
+    const totalPercentage = useMemo(() => {
+        return selectedBeans.reduce((sum, bean) => sum + bean.percentage, 0);
+    }, [selectedBeans])
 
-                            <Collapse in={selectedBeans.some(b => b.id === bean.id)}>
-                                <Grid container spacing={1} sx={{
-                                    mx: 4,
-                                    mb: 2,
-                                    alignItems: 'center'
-                                }}>
-                                    <Grid size="grow">
-                                        <Slider
-                                            aria-labelledby={bean.name + '-slider'}
-                                            value={selectedBeans.find(b => b.id === bean.id)?.percentage || 0}
-                                            onChange={(_e, value) => handlePercentageChange(bean.id, value as number)}
-                                            valueLabelDisplay="auto"
-                                            step={10}
-                                            marks
-                                            min={10}
-                                            max={100}
-                                            sx={{
-                                                color: 'primary.dark'
-                                            }}
-                                        />
-                                    </Grid>
+    return <>
+        <Box sx={{width: '100%', mb: 4}}>
+            <Typography
+                variant="h5"
+                component="h2"
+                fontWeight="bold"
+                sx={{mb: 1}}
+            >
+                원두 원산지 선택
+            </Typography>
 
-                                    <Grid>
-                                        <Input
-                                            value={selectedBeans.find(b => b.id === bean.id)?.percentage || 0}
-                                            onChange={(e) => handlePercentageChange(bean.id, Number(e.target.value))}
+            <FormGroup sx={{mb: 1}}>
+                <Grid container spacing={0.5}>
+                    {beans.map((bean) => (
+                        <Grid size={{xs: 12, sm: 6, md: 4,}} key={bean.id}>
+                            <Stack>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            name={bean.name}
+                                            value={bean}
+                                            checked={selectedBeans.some(b => b.id === bean.id)}
+                                            onChange={(e) => handleCheckboxChange(bean, e)}
                                             size="small"
-                                            inputProps={{
-                                                step: 10,
-                                                min: 10,
-                                                max: 100,
-                                                type: 'number',
-                                                onKeyDown: (e) => e.preventDefault(),
-                                                'aria-labelledby': `${bean.name}-slider`,
+                                            sx={{
+                                                '&.Mui-checked': {
+                                                    color: 'primary.dark',
+                                                }
                                             }}
-                                            endAdornment={<Typography sx={{ml: 0.5}}>%</Typography>}
                                         />
+                                    }
+                                    label={
+                                        <Typography variant="body1" sx={{fontSize: '0.95rem'}}>
+                                            {bean.name}
+                                        </Typography>
+                                    }
+                                />
+
+                                <Collapse in={selectedBeans.some(b => b.id === bean.id)}>
+                                    <Grid container spacing={1} sx={{
+                                        mx: 4,
+                                        mb: 2,
+                                        alignItems: 'center'
+                                    }}>
+                                        <Grid size="grow">
+                                            <Slider
+                                                aria-labelledby={bean.name + '-slider'}
+                                                value={selectedBeans.find(b => b.id === bean.id)?.percentage || 0}
+                                                onChange={(_e, value) => handlePercentageChange(bean.id, value as number)}
+                                                valueLabelDisplay="auto"
+                                                step={10}
+                                                marks
+                                                min={10}
+                                                max={100}
+                                                sx={{
+                                                    color: 'primary.dark'
+                                                }}
+                                            />
+                                        </Grid>
+
+                                        <Grid>
+                                            <Input
+                                                value={selectedBeans.find(b => b.id === bean.id)?.percentage || 0}
+                                                onChange={(e) => handlePercentageChange(bean.id, Number(e.target.value))}
+                                                size="small"
+                                                inputProps={{
+                                                    step: 10,
+                                                    min: 10,
+                                                    max: 100,
+                                                    type: 'number',
+                                                    onKeyDown: (e) => e.preventDefault(),
+                                                    'aria-labelledby': `${bean.name}-slider`,
+                                                }}
+                                                endAdornment={<Typography sx={{ml: 0.5}}>%</Typography>}
+                                            />
+                                        </Grid>
                                     </Grid>
-                                </Grid>
-                            </Collapse>
-                        </Stack>
-                    </Grid>
-                ))}
-            </Grid>
-        </FormGroup>
-    </Box>
-</>
+                                </Collapse>
+                            </Stack>
+                        </Grid>
+                    ))}
+                </Grid>
+            </FormGroup>
+
+            {selectedBeans.length === 0 ? (
+                <Typography variant="body2" color="info">
+                    원두를 선택해주세요.
+                </Typography>
+            ) : totalPercentage === 100 ? (
+                <Typography variant="body2" color="success">
+                    총합: 100% (선택된 원두: {selectedBeans.map(b => b.name).join(', ')})
+                </Typography>
+            ) : (
+                <Typography variant="body2" color="error">
+                    총합: {totalPercentage}% (100%가 되도록 비율을 조정해주세요)
+                </Typography>
+            )}
+        </Box>
+    </>
+}
