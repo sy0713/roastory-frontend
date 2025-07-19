@@ -34,9 +34,10 @@ const Layout = () => {
                     display: 'flex',
                     flexGrow: 1,
                     justifyContent: "center",
-                    alignItems: "center",
+                    // alignItems: "center",
                     mt: 2,
                     mb: 2,
+                    px: 4,
                     // border: 1
                 }}>
                 <AnimatePresence mode="wait">

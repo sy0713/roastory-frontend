@@ -14,12 +14,16 @@ const Home = () => {
             animate="in"
             exit="out"
             transition={pageTransition}
+            sx={{
+                display: 'flex',
+                alignItems: 'center'
+            }}
         >
             <Stack alignItems="center">
-                <Typography variant="h1" sx={{color: "black", fontWeight: 'bold'}}>
+                <Typography variant="h1" sx={{fontWeight: 'bold'}}>
                     ROASTORY
                 </Typography>
-                <Typography variant="h4" sx={{color: 'grey.700'}}>
+                <Typography variant="h4" color="primary.dark">
                     당신의 원두. 당신의 로스팅. 당신의 이야기.
                 </Typography>
 
@@ -28,7 +32,6 @@ const Home = () => {
                     // component={Link}
                     // to="/roastery"
                     variant="contained"
-                    color="primary"
                     whileHover={{
                         scale: 1.05,
                         boxShadow: '0px 4px 10px rgba(0,0,0,1)',
