@@ -1,4 +1,4 @@
-import {Typography} from "@mui/material";
+import {Typography, Box} from "@mui/material";
 import {MotionBox, pageTransition, pageVariants} from "../../common/motion.ts";
 import {useEffect, useState} from "react";
 import {RoasterySelectTab} from "./roasterySelectTab.tsx";
@@ -81,6 +81,19 @@ const Roastery = () => {
                            handlePercentageChange={handlePercentageChange}/>
 
             <RoastingLevel/>
+
+            <Box sx={{
+                width: '100%',
+            }}>
+                <Typography
+                    variant="h5"
+                    component="h2"
+                    fontWeight="bold"
+                    sx={{mb: 1}}
+                >
+                    수량 (10Kg 단위)
+                </Typography>
+            </Box>
 
         </MotionBox>
     </>

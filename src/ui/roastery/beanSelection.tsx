@@ -51,13 +51,14 @@ export const BeanSelection = ({
                                             size="small"
                                             sx={{
                                                 '&.Mui-checked': {
-                                                    color: 'primary.dark',
+                                                    color: 'black',
                                                 }
                                             }}
                                         />
                                     }
                                     label={
-                                        <Typography variant="body1" sx={{fontSize: '0.95rem'}}>
+                                        <Typography id={bean.name + '-label'} variant="body1"
+                                                    sx={{fontSize: '0.95rem'}}>
                                             {bean.name}
                                         </Typography>
                                     }
@@ -71,7 +72,7 @@ export const BeanSelection = ({
                                     }}>
                                         <Grid size="grow">
                                             <Slider
-                                                aria-labelledby={bean.name + '-slider'}
+                                                aria-labelledby={bean.name + '-label'}
                                                 value={selectedBeans.find(b => b.id === bean.id)?.percentage || 0}
                                                 onChange={(_e, value) => handlePercentageChange(bean.id, value as number)}
                                                 valueLabelDisplay="auto"
@@ -80,7 +81,14 @@ export const BeanSelection = ({
                                                 min={10}
                                                 max={100}
                                                 sx={{
-                                                    color: 'primary.dark'
+                                                    color: 'black',
+                                                    '& .MuiSlider-thumb': {
+                                                        backgroundColor: 'background.paper',
+                                                        border: 1,
+                                                        borderColor: 'primary.dark',
+                                                        width: 15,
+                                                        height: 15
+                                                    },
                                                 }}
                                             />
                                         </Grid>
@@ -96,9 +104,14 @@ export const BeanSelection = ({
                                                     max: 100,
                                                     type: 'number',
                                                     onKeyDown: (e) => e.preventDefault(),
-                                                    'aria-labelledby': `${bean.name}-slider`,
+                                                    'aria-labelledby': `${bean.name}-label`,
                                                 }}
                                                 endAdornment={<Typography sx={{ml: 0.5}}>%</Typography>}
+                                                sx={{
+                                                    '& .MuiInput-input': {
+                                                        textAlign: 'center',
+                                                    }
+                                                }}
                                             />
                                         </Grid>
                                     </Grid>
@@ -110,15 +123,15 @@ export const BeanSelection = ({
             </FormGroup>
 
             {selectedBeans.length === 0 ? (
-                <Typography variant="body2" color="info">
+                <Typography variant="body2" color="info.light">
                     원두를 선택해주세요.
                 </Typography>
             ) : totalPercentage === 100 ? (
-                <Typography variant="body2" color="success">
+                <Typography variant="body2" color="success.light">
                     총합: 100% (선택된 원두: {selectedBeans.map(b => b.name).join(', ')})
                 </Typography>
             ) : (
-                <Typography variant="body2" color="error">
+                <Typography variant="body2" color="error.light">
                     총합: {totalPercentage}% (100%가 되도록 비율을 조정해주세요)
                 </Typography>
             )}
